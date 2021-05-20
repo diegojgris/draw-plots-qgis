@@ -22,32 +22,28 @@ Unzip the downloaded folder and move it to a permanent location (any place where
 
 Finally, go back to QGIS to adjust the following settings:
 
-Find the Processing Toolbox pane, usually located on the right side of the screen. If you do not see it, go to:
+1. Find the Processing Toolbox pane, usually located on the right side of the screen. If you do not see it, go to:
 
 > View > Panels > Processing Toolbox
 
 and make sure it is enabled.
 
-![Enabling the Processing Toolbox pane](view_processing_toolbox.png)
+![Enabling the Processing Toolbox pane](img/view_processing_toolbox.png)
 
-On the Processing Toolbox pane, click on the *Options* button, identified by a wrench icon. Then, go to:
+2. On the Processing Toolbox pane, click on the *Options* button, identified by a wrench icon. Then, go to:
 
 > Providers > R
 
-Check the box for *Use 64 bit version*
+a) Check the box for *Use 64 bit version*
 
-Double click on the editable field to the right side of *R scripts folder*, and then click on the [...] button that shows up at the end of this field. Click on the *Add* button on the new window that pops up and look for the **rscripts** folder inside the unzipped folder that you downloaded and placed in a permanent location. This will make sure that QGIS can find the R scripts and make them available in the Processing Toolbox.
+b) Double click on the editable field to the right side of *R scripts folder*, and then click on the [...] button that shows up at the end of this field. Click on the *Add* button on the new window that pops up and look for the **rscripts** folder inside the unzipped folder that you downloaded and placed in a permanent location. This will make sure that QGIS can find the R scripts and make them available in the Processing Toolbox.
 
-![Adjusting the Processing R Provider settings](change_r_plugin_settings.png)
+![Adjusting the Processing R Provider settings](img/change_r_plugin_settings.png)
 
 After doing this, you should be able to find the new tools in the Processing Toolbox pane under:
 
 > R > Draw trial plots
 
-![R scripts location in QGIS](r_scripts.png)
+![R scripts location in QGIS](img/r_scripts.png)
 
 ## Usage
-
-```
-C:/Users/<your-name-here>/.qgis/processing/rscripts
-```
