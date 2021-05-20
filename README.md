@@ -38,7 +38,7 @@ a) Check the box for *Use 64 bit version*
 
 b) Double click on the editable field to the right side of *R scripts folder*, and then click on the [...] button that shows up at the end of this field. Click on the *Add* button on the new window that pops up and look for the **rscripts** folder inside the unzipped folder that you downloaded and placed in a permanent location. This will make sure that QGIS can find the R scripts and make them available in the Processing Toolbox.
 
-![Adjusting the Processing R Provider settings](img/change_r_plugin_settings.png)
+![Adjusting the Processing R Provider settings](img/adjust_r_plugin_settings.png)
 
 After doing this, you should be able to find the new tools in the Processing Toolbox pane under:
 
