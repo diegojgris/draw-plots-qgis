@@ -18,7 +18,7 @@ Then, download this repository by clicking on the green *Code* button:
 
 ![Downloading GitHub repository](img/download_repo.png)
 
-Unzip the downloaded folder and move it to a permanent location (any place where it will not be moved from or deleted).
+Unzip the downloaded folder and move it to a permanent location (any place from where it will not be moved or deleted).
 
 Finally, go back to QGIS to adjust the following settings:
 
