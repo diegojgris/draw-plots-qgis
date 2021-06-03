@@ -7,6 +7,7 @@
 "Angle_of_rotation_of_the_plots": "Angle (degrees) of rotation of the plots from the North. Positive values rotate the plots clockwise. Negative values rotate the plots counterclockwise.",
 "ID_format": "Choose how the IDs for the plots are assigned. 'Sequential' means that plot IDs keep counting from the same side as the first range when they proceed into a new range, just like several lines of text in a word processor. 'Serpentine' means that plot IDs keep counting from the side where the previous range ended when they proceed into a new range, similar to how some snakes sidewind in S-shaped curves to move.",
 "Start_numbering_plots_from": "Choose from which corner of the trial the plots start being labeled.",
+"Blocks_always_start_on_the_same_side_in_serpentine_format": "When using the serpentine format with an odd number of ranges per block, check this option if the plots inside each block should always start at the side chosen above, rather than continuing the serpentine from the previous block.",
 "Starting_ID_if_not_block_design": "If the trials are not in a block design (Number of blocks = 1), you can choose the ID for the first plot, from which counting starts. For block desing, the first ID is always 101, in which the first digit represents the block number, and the last two digits the plot number.",
 "Measurement_units_for_plot_size": "Choose the measurement units for the plot sizes (feet or meters).",
 "Full_plot_width": "Width of the full plots, as if they were drawn touching each other.",

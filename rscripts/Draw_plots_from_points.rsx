@@ -8,6 +8,7 @@
 ##Angle_of_rotation_of_the_plots=string 0
 ##ID_format=selection sequential;serpentine 0
 ##Start_numbering_plots_from=selection bottom_left;bottom_right;top_left;top_right 0
+##Blocks_always_start_on_the_same_side_in_serpentine_format=boolean FALSE
 ##Starting_ID_if_not_block_design=string 1
 ##Measurement_units_for_plot_size=selection feet;meters 0
 ##Full_plot_width=string
@@ -36,6 +37,7 @@ n_blocks <- as.numeric(Number_of_blocks)
 n_ranges <- as.numeric(Number_of_ranges_per_block)
 n_plots <- as.numeric(Number_of_plots_per_range)
 bearing <- as.numeric(Angle_of_rotation_of_the_plots)
+restart_side <- Blocks_always_start_on_the_same_side_in_serpentine_format
 
 # Check if coordinates of the input vector are projected
 if(!is.projected(Point_vector)) stop('Coordinates of the input must be projected (meters)!')
@@ -108,7 +110,12 @@ for(i in 1:length(Point_vector)){
     }
   }
   
-  if(n_blocks>1){ # If there are multiple blocks
+  if(n_blocks[[i]]>1){ # If there are multiple blocks
+    
+    # Check if number of blocks is greater than 9 to determine number of digits in labels
+    n_dig_blocks <- ifelse(n_blocks[[i]] > 9, 2, 1)
+    # Check if number of plots per block is greater than 99 to determine number of digits in labels
+    n_dig_entries <- ifelse(n_ranges[[i]]*n_plots[[i]] > 99, 3, 2)
     
     if(ID_format==0){ # Sequential format
       # Convert raster cells to polygons
@@ -116,30 +123,30 @@ for(i in 1:length(Point_vector)){
       # Assign plot ID based on block and plot number
       for(cell in 1:ncell(plots)){
         if(Start_numbering_plots_from==0){ # If numbering starts from the bottom_left
-          block_ID <- rev(ceiling((1:nrow(plots))/n_ranges))[rowFromCell(plots, cell)]
-          range_ID <- rev(rep(1:n_ranges,n_blocks))[rowFromCell(plots, cell)]
-          entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+          sprintf(paste0('%0',n_dig_blocks,'d'), block_ID <- rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+          range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+          entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
           plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
         }
         
         if(Start_numbering_plots_from==1){ # If numbering starts from the bottom_right
-          block_ID <- rev(ceiling((1:nrow(plots))/n_ranges))[rowFromCell(plots, cell)]
-          range_ID <- rev(rep(1:n_ranges,n_blocks))[rowFromCell(plots, cell)]
-          entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+          sprintf(paste0('%0',n_dig_blocks,'d'), block_ID <- rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+          range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+          entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
           plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          }
+        }
         
         if(Start_numbering_plots_from==2){ # If numbering starts from the top_left
-          block_ID <- ceiling((1:nrow(plots))/n_ranges)[rowFromCell(plots, cell)]
-          range_ID <- rep(1:n_ranges,n_blocks)[rowFromCell(plots, cell)]
-          entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+          sprintf(paste0('%0',n_dig_blocks,'d'), block_ID <- ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+          range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+          entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
           plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          }
+        }
         
         if(Start_numbering_plots_from==3){ # If numbering starts from the top_right
-          block_ID <- ceiling((1:nrow(plots))/n_ranges)[rowFromCell(plots, cell)]
-          range_ID <- rep(1:n_ranges,n_blocks)[rowFromCell(plots, cell)]
-          entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+          sprintf(paste0('%0',n_dig_blocks,'d'), block_ID <- ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+          range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+          entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
           plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
         }
       }
@@ -148,60 +155,115 @@ for(i in 1:length(Point_vector)){
     if(ID_format==1){ # Serpentine format
       # Convert raster cells to polygons
       plots_poly <- rasterToPolygons(plots)
-      # Assign plot ID based on block and plot number
-      for(cell in 1:ncell(plots)){
-        if(Start_numbering_plots_from==0){ # If numbering starts from the bottom_left
-          block_ID <- rev(ceiling((1:nrow(plots))/n_ranges))[rowFromCell(plots, cell)]
-          range_ID <- rev(rep(1:n_ranges,n_blocks))[rowFromCell(plots, cell)]
-          if(range_ID%%2==1){ # If the range number is odd
-            entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          } else{ # If the range number is even
-            entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+      
+      if(restart_side){ # If blocks should always start on the same side
+        
+        # Assign plot ID based on block and plot number
+        for(cell in 1:ncell(plots)){
+          if(Start_numbering_plots_from==0){ # If numbering starts from the bottom_left
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+            range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+            if(range_ID%%2==1){ # If the range number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the range number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
+          }
+          
+          if(Start_numbering_plots_from==1){ # If numbering starts from the bottom_right
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+            range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+            if(range_ID%%2==1){ # If the range number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the range number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
+          }
+          
+          if(Start_numbering_plots_from==2){ # If numbering starts from the top_left
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+            range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+            if(range_ID%%2==1){ # If the range number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the range number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
+          }
+          
+          if(Start_numbering_plots_from==3){ # If numbering starts from the top_right
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+            range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+            if(range_ID%%2==1){ # If the range number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the range number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
           }
         }
+      } else{ # Else, if blocks should follow the serpentine
         
-        if(Start_numbering_plots_from==1){ # If numbering starts from the bottom_right
-          block_ID <- rev(ceiling((1:nrow(plots))/n_ranges))[rowFromCell(plots, cell)]
-          range_ID <- rev(rep(1:n_ranges,n_blocks))[rowFromCell(plots, cell)]
-          if(range_ID%%2==1){ # If the range number is odd
-            entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          } else{ # If the range number is even
-            entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+        # Assign plot ID based on block and plot number
+        for(cell in 1:ncell(plots)){
+          if(Start_numbering_plots_from==0){ # If numbering starts from the bottom_left
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+            range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+            if((nrow(plots):1)[rowFromCell(plots, cell)]%%2==1){ # If the row number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the row number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
           }
-        }
-        
-        if(Start_numbering_plots_from==2){ # If numbering starts from the top_left
-          block_ID <- ceiling((1:nrow(plots))/n_ranges)[rowFromCell(plots, cell)]
-          range_ID <- rep(1:n_ranges,n_blocks)[rowFromCell(plots, cell)]
-          if(range_ID%%2==1){ # If the range number is odd
-            entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          } else{ # If the range number is even
-            entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+          
+          if(Start_numbering_plots_from==1){ # If numbering starts from the bottom_right
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), rev(ceiling((1:nrow(plots))/n_ranges[[i]]))[rowFromCell(plots, cell)])
+            range_ID <- rev(rep(1:n_ranges[[i]],n_blocks[[i]]))[rowFromCell(plots, cell)]
+            if((nrow(plots):1)[rowFromCell(plots, cell)]%%2==1){ # If the row number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the row number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
           }
-        }
-        
-        if(Start_numbering_plots_from==3){ # If numbering starts from the top_right
-          block_ID <- ceiling((1:nrow(plots))/n_ranges)[rowFromCell(plots, cell)]
-          range_ID <- rep(1:n_ranges,n_blocks)[rowFromCell(plots, cell)]
-          if(range_ID%%2==1){ # If the range number is odd
-            entry_ID <- sprintf('%02d', (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
-          } else{ # If the range number is even
-            entry_ID <- sprintf('%02d', colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
-            plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+          
+          if(Start_numbering_plots_from==2){ # If numbering starts from the top_left
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+            range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+            if(rowFromCell(plots, cell)%%2==1){ # If the row number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the row number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
+          }
+          
+          if(Start_numbering_plots_from==3){ # If numbering starts from the top_right
+            block_ID <- sprintf(paste0('%0',n_dig_blocks,'d'), ceiling((1:nrow(plots))/n_ranges[[i]])[rowFromCell(plots, cell)])
+            range_ID <- rep(1:n_ranges[[i]],n_blocks[[i]])[rowFromCell(plots, cell)]
+            if(rowFromCell(plots, cell)%%2==1){ # If the row number is odd
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), (ncol(plots):1)[colFromCell(plots, cell)]+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            } else{ # If the row number is even
+              entry_ID <- sprintf(paste0('%0',n_dig_entries,'d'), colFromCell(plots, cell)+ncol(plots)*(range_ID-1))
+              plots_poly[cell,] <- paste0(block_ID, entry_ID, collapse='')
+            }
           }
         }
       }
     }
   }
-    
-  
+
   # Change column name in the polygons data frame to PlotID
   names(plots_poly) <- c('PlotID')
   
