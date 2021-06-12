@@ -45,7 +45,7 @@ d) Double click on the editable field to the right side of *User library folder*
    * Option 1: If you have previously used R in your computer and have installed some R packages, you can look for your existing user library here. On Windows, the default location for the R library is "C:\Users\\**Your.Username**\Documents\R\win-library\\**Your-R-Version (4.0 or so)**".
    * Option 2: If you have never used R before and this is the first time you have installed it on your computer, or you are not able to locate your existing user library, look for the **library** folder inside the unzipped folder that you downloaded and placed in a permanent location.
 
-![Adjusting the Processing R Provider settings](img/adjust_r_plugin_settings.png)
+![Adjusting the Processing R Provider settings using Option 1](img/adjust_plugin_settings.png)
 
 After doing this, you should be able to find the new tools in the Processing Toolbox pane under:
 
