@@ -4,7 +4,7 @@
 
 In order to use these tools, you will need to first download and install the following software:
 1. [QGIS](https://qgis.org/en/site/forusers/download.html)
-2. [R](https://cran.r-project.org/mirrors.html)
+2. [R](https://www.r-project.org/)
 
 Once they are installed, you can open QGIS and install the **Processing R Provider** plugin by going to:
 
@@ -34,9 +34,16 @@ and make sure it is enabled.
 
 > Providers > R
 
-a) Check the box for *Use 64 bit version*
+a) Double click on the editable field to the right side of *R scripts folder*, and then click on the [...] button that shows up at the end of this field. Click on the *Add* button on the new window that pops up and look for the **rscripts** folder inside the unzipped folder that you downloaded and placed in a permanent location. This will make sure that QGIS can find the R scripts and make them available in the Processing Toolbox.
 
-b) Double click on the editable field to the right side of *R scripts folder*, and then click on the [...] button that shows up at the end of this field. Click on the *Add* button on the new window that pops up and look for the **rscripts** folder inside the unzipped folder that you downloaded and placed in a permanent location. This will make sure that QGIS can find the R scripts and make them available in the Processing Toolbox.
+b) Check the box for *Use 64 bit version*.
+
+c) Check the box for *Use user library folder instead of system libraries*.
+
+d) Double click on the editable field to the right side of *User library folder*, and then click on the [...] button that shows up at the end of this field. Here, there are two options based on your experience with R:
+
+   * Option 1: If you have previously used R in your computer and have installed some R packages, you can look for your existing user library here. On Windows, the default location for the R library is "C:\Users\\**Your.Username**\Documents\R\win-library\\**Your-R-Version (4.0 or so)**".
+   * Option 2: If you have never used R before and this is the first time you have installed it on your computer, or you are not able to locate your existing user library, look for the **library** folder inside the unzipped folder that you downloaded and placed in a permanent location.
 
 ![Adjusting the Processing R Provider settings](img/adjust_r_plugin_settings.png)
 
@@ -45,5 +52,3 @@ After doing this, you should be able to find the new tools in the Processing Too
 > R > Draw trial plots
 
 ![R scripts location in QGIS](img/r_scripts.png)
-
-## Usage
