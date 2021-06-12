@@ -1,0 +1,1 @@
+This folder will be used to install R packages in case it is the first time you have installed R in your computer.
