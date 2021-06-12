@@ -1,4 +1,4 @@
-# Draw field experiment plots using R scripts in QGIS
+# Draw field trial plots using R scripts in QGIS
 
 ## Installation
 
