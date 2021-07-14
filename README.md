@@ -57,7 +57,7 @@ After doing this, you should be able to find the new tools in the Processing Too
 
 This package contains four different tools. The parameters are the same for all of them, but each tool uses a different type of input for the location of the trial(s). "Draw plots from clicks" can draw plots from one trial at a time. The other three tools can be used to draw plots for multiple trials at the same time. However, only "Draw plots from Excel file" allows the user to specify different parameters for each trial. "Draw plots from points" and "Draw plots from polygons" will use the same parameters for every trial regarding plot labels and dimensions. Each tool is accompanied by a help text that should be displayed on the right side of the tool interface when it is opened.
 
-This section will demonstrate the usage of this package using "Draw plots from clicks". The data used in these examples can be found in the **sampledata** folder located inside the unzipped folder that you downloaded and placed in a permanent location.
+This section will demonstrate the usage of this package using "Draw plots from clicks". The data used in these examples can be found in the **sampledata** folder located inside the unzipped folder that you downloaded and placed in a permanent location. The location of the bottom left and top left corners of the trial are shown in the figure below.
 
 ![Sample data](img/sample_data.png)
 
