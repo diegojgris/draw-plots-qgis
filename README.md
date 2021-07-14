@@ -61,6 +61,22 @@ This section will demonstrate the usage of this package using "Draw plots from c
 
 ![Sample data](img/sample_data.png)
 
-1. 3 blocks, 2 ranges per block, 15 plots per range (each plot contains 2 rows of plants)
+a) 3 blocks, 2 ranges per block, 15 plots per range (each plot contains 2 rows of plants), IDs in serpentine starting at the bottom left corner.
 
-![Example 1 parameters](img/click_sample1_parameters.png) ![Example 1 plots](img/click_sample1_plots.png)
+![Example 1 parameters](img/click_sample1_parameters.png)
+![Example 1 plots](img/click_sample1_plots.png)
+
+b) 1 block (i.e., not block design), 6 ranges, 15 plots per range (each plot contains 2 rows of plants), sequential IDs starting at the top left corner.
+
+![Example 2 parameters](img/click_sample2_parameters.png)
+![Example 2 plots](img/click_sample2_plots.png)
+
+c) 2 blocks, 3 ranges per block, 30 plots per range (each plot contains 1 row of plants), sequential IDs starting at the top right corner, no borders.
+
+![Example 3 parameters](img/click_sample3_parameters.png)
+![Example 3 plots](img/click_sample3_plots.png)
+
+d) 1 block (i.e., not block design), 6 ranges, 10 plots per range (each plot contains 3 rows of plants), IDs in serpentine starting at the bottom right corner, user-specified starting ID.
+
+![Example 4 parameters](img/click_sample4_parameters.png)
+![Example 4 plots](img/click_sample4_plots.png)
