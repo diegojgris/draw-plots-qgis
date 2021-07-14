@@ -59,7 +59,7 @@ This package contains four different tools. The parameters are the same for all 
 
 This section will demonstrate the usage of this package using "Draw plots from clicks". The data used in these examples can be found in the **sampledata** folder located inside the unzipped folder that you downloaded and placed in a permanent location. The location of the bottom left and top left corners of the trial are shown in the figure below.
 
-![Sample data](img/sample_data.png)
+![Sample data](img/sample_data_corners.png)
 
 a) 3 blocks, 2 ranges per block, 15 plots per range (each plot contains 2 rows of plants), IDs in serpentine starting at the bottom left corner.
 
