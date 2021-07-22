@@ -10,6 +10,7 @@
 ##Start_numbering_plots_from=selection bottom_left;bottom_right;top_left;top_right 0
 ##Blocks_always_start_on_the_same_side_in_serpentine_format=boolean FALSE
 ##Starting_ID_if_not_block_design=string 1
+##Trial_name=optional string
 ##Measurement_units_for_plot_size=selection feet;meters 0
 ##Full_plot_width=string
 ##Full_plot_height=string
@@ -290,6 +291,11 @@ rotated_plots <- elide(data_plots_poly, rotate=bearing,
 
 # Assign coordinate system
 crs(rotated_plots) <- crs(bottom_left)
+
+# Create column with trial name if field is not blank
+if(Trial_name!=''){
+  rotated_plots$Trial <- Trial_name
+  }
 
 # Output vector layer to QGIS
 Output <- rotated_plots
