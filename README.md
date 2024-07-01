@@ -6,7 +6,7 @@ This plot drawing tool for QGIS aims to provide a simple solution to create ploy
 
 ## Updates
 
-As of July 1st, 2024, only the "Draw plots from clicks" tool has been updated and is available under the new name "Plot drawing tool". The other tools ("Draw plots from points", "Draw plots from polygons", and "Draw plots from Excel file", are broken and have been deprecated due to low usage. If you used one of these tools and would like to keep using it, please feel free to raise an issue requesting it to be updated.
+As of July 1st, 2024, only the "Draw plots from clicks" tool has been updated and is available under the new name "Plot drawing tool". The other tools ("Draw plots from points", "Draw plots from polygons", and "Draw plots from Excel", are broken and have been deprecated due to low usage. If you used one of these tools and would like to keep using it, please feel free to raise an issue requesting it to be updated.
 
 ## Installation
 
