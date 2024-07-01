@@ -1,12 +1,20 @@
-# Draw field trial plots using R scripts in QGIS
+# Draw and label trial plots in QGIS
+
+This plot drawing tool for QGIS aims to provide a simple solution to create ploygons that represent your plots over satellite or aerial imagery. The beauty of this tool is in its automatic labeling capabilities, which in most cases allows you to replicate your labels in the field by adjusting a few parameters.
+
+![Plot drawing tool diagram](img/tool_diagram.png)
+
+## Updates
+
+As of July 1st, 2024, only the "Draw plots from clicks" tool has been updated and is available under the new name "Plot drawing tool". The other tools ("Draw plots from points", "Draw plots from polygons", and "Draw plots from Excel file", are broken and have been deprecated due to low usage. If you used one of these tools and would like to keep using it, please feel free to raise an issue requesting it to be updated.
 
 ## Installation
 
-In order to use these tools, you will need to first download and install the following software:
+You will need QGIS and R installed on your machine to use this tool. Please follow the links below to download and install the latest versions available for your OS:
 1. [QGIS](https://qgis.org/en/site/forusers/download.html)
 2. [R](https://www.r-project.org/)
 
-Once they are installed, you can open QGIS and install the **Processing R Provider** plugin by going to:
+Once QGIS and R are installed, you can open QGIS and install the **Processing R Provider** plugin by going to:
 
 > Plugins > Manage and Install Plugins... > All > Search for "Processing R Provider" > Install Plugin
 
@@ -20,7 +28,7 @@ Then, download this repository by clicking on the green *Code* button:
 
 Unzip the downloaded folder and move it to a permanent location (any place from where it will not be moved or deleted).
 
-Finally, go back to QGIS to adjust the following settings:
+Finally, go back to QGIS to adjust the following settings (this tutorial was created on Windows, other systems might have different settings):
 
 1. Find the Processing Toolbox pane, usually located on the right side of the screen. If you do not see it, go to:
 
@@ -40,9 +48,9 @@ b) Check the box for *Use 64 bit version*.
 
 c) Check the box for *Use user library folder instead of system libraries*.
 
-d) Double click on the editable field to the right side of *User library folder*, and then click on the [...] button that shows up at the end of this field. Here, there are two options based on your experience with R:
+d) If there is a path already defined for *User library folder*, you can leave it as is. Otherwise, double click on the editable field to the right side of *User library folder*, and then click on the [...] button that shows up at the end of this field. Here, there are two options based on your experience with R:
 
-   * Option 1: If you have previously used R in your computer and have installed some R packages, you can look for your existing user library here. On Windows, the default location for the R library is "C:\Users\\**Your.Username**\Documents\R\win-library\\**Your-R-Version (4.0 or so)**".
+   * Option 1: If you have previously used R in your computer and have installed some R packages, you can look for your existing user library here. On Windows, the default location for the R library is "C:\Users\\**Your.Username**\Documents\R\win-library\\**Your-R-Version**".
    * Option 2: If you have never used R before and this is the first time you have installed it on your computer, or you are not able to locate your existing user library, look for the **library** folder inside the unzipped folder that you downloaded and placed in a permanent location.
 
 ![Adjusting the Processing R Provider settings using Option 1](img/adjust_plugin_settings.png)
@@ -55,9 +63,7 @@ After doing this, you should be able to find the new tools in the Processing Too
 
 ## Usage
 
-This package contains four different tools. The parameters are the same for all of them, but each tool uses a different type of input for the location of the trial(s). "Draw plots from clicks" can draw plots from one trial at a time. The other three tools can be used to draw plots for multiple trials at the same time. However, only "Draw plots from Excel file" allows the user to specify different parameters for each trial. "Draw plots from points" and "Draw plots from polygons" will use the same parameters for every trial regarding plot labels and dimensions. Each tool is accompanied by a help text that should be displayed on the right side of the tool interface when it is opened.
-
-This section will demonstrate the usage of this package using "Draw plots from clicks". The data used in these examples can be found in the **sampledata** folder located inside the unzipped folder that you downloaded and placed in a permanent location. The location of the bottom left and top left corners of the trial are shown in the figure below.
+This section will demonstrate the usage of the "Plot drawing tool". The tool is accompanied by instructions that should be displayed on the right side of the user interface window when it is opened in QGIS. The data used in these examples can be found in the **sampledata** folder located inside the unzipped folder that you downloaded and placed in a permanent location. The location of the bottom left and top left corners of the trial are shown in the figure below.
 
 ![Sample data](img/sample_data_corners.png)
 
