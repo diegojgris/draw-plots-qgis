@@ -1,6 +1,6 @@
 # Draw and label trial plots in QGIS
 
-This plot drawing tool for QGIS aims to provide a simple solution to create ploygons that represent your plots over satellite or aerial imagery. The beauty of this tool is in its automatic labeling capabilities, which in most cases allows you to replicate your labels in the field by adjusting a few parameters.
+This plot drawing tool for QGIS aims to provide a simple solution to create ploygons that represent your plots over satellite or aerial imagery of your trials. The beauty of this tool is in its automatic labeling capabilities, which in most cases allows you to replicate your labels from the field by simply adjusting a few parameters.
 
 ![Plot drawing tool diagram](img/tool_diagram.png)
 
